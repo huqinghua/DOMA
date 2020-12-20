@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: mgm
+  aop:
+    auto: true
+    proxy-target-class: true
+
+
+

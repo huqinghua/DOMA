@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Hikari Datasource -->
+    <bean id="dataSourceHikari" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${db.jdbc.url}"/>
+        <property name="username" value="${db.jdbc.username}"/>
+        <property name="password" value="${db.jdbc.password}"/>
+        <property name="readOnly" value="${db.hikari.readOnly}"/>
+        <property name="connectionTimeout" value="${db.hikari.connectionTimeout}"/>
+        <property name="validationTimeout" value="${db.hikari.validationTimeout}"/>
+        <property name="idleTimeout" value="${db.hikari.idleTimeout}"/>
+        <property name="maxLifetime" value="${db.hikari.maxLifetime}"/>
+        <property name="maximumPoolSize" value="${db.hikari.maximumPoolSize}"/>
+        <property name="autoCommit" value="${db.hikari.autoCommit}"/>
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="cachePrepStmts">false</prop>
+                <prop key="prepStmtCacheSize">250</prop>
+                <prop key="prepStmtCacheSqlLimit">2048</prop>
+                <prop key="useServerPrepStmts">false</prop>
+                <prop key="useLocalSessionState">true</prop>
+                <prop key="rewriteBatchedStatements">true</prop>
+                <prop key="cacheResultSetMetadata">false</prop>
+                <prop key="cacheServerConfiguration">true</prop>
+                <prop key="elideSetAutoCommits">true</prop>
+                <prop key="maintainTimeStats">false</prop>
+            </props>
+        </property>
+
+    </bean>
+
+
+    <bean id="mgmTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceHikari"></property>
+    </bean>
+
+    <bean id="mgmTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="mgmTransactionManager"></property>
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"></property>
+    </bean>
+
+</beans>
