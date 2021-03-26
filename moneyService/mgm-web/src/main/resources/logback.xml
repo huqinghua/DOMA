@@ -5,7 +5,7 @@
         <resetJUL>true</resetJUL>
     </contextListener>
 
-    <property name="log.info.location" value="/export/Logs/bpaas"/>
+    <property name="log.info.location" value="./logs"/>
     <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80}[%L] - %msg%n"/>
 
 
