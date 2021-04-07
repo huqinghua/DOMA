@@ -16,6 +16,7 @@ public class MoneyMoneyAccount implements IMoneyAccount {
     private MoneyAccountId id;
     private UserId userId;
     private Money money;
+    private Long version;
 
     @Override
     public void deposit(Money money) {

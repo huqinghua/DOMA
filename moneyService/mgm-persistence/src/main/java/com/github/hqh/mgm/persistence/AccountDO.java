@@ -23,5 +23,6 @@ public class AccountDO {
     private Long id;
     private Long userId;
     private BigDecimal currency;
+    private Long version;
 
 }

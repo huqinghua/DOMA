@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 public class AccountBuilder {
     public MoneyMoneyAccount toAccount(AccountDO accountDO) {
         return new MoneyMoneyAccount(new MoneyAccountId(accountDO.getId()),
-                new UserId(accountDO.getUserId()), new Money(accountDO.getCurrency()));
+                new UserId(accountDO.getUserId()), new Money(accountDO.getCurrency()), accountDO.getVersion());
     }
 
     public AccountDO fromAccount(MoneyMoneyAccount moneyAccount) {
         return new AccountDO(moneyAccount.getId().getValue(),
-                moneyAccount.getUserId().getId(), moneyAccount.getMoney().getValue());
+                moneyAccount.getUserId().getId(), moneyAccount.getMoney().getValue(),moneyAccount.getVersion());
     }
 }
