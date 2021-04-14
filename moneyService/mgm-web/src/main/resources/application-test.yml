@@ -26,4 +26,10 @@ spring:
 server:
   port : 8081
 logging:
-  config: classpath:logback-test.xml
+  config : classpath:logback-test.xml
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone : http://localhost:9000/eureka

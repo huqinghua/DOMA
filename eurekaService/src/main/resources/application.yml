@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: mgm-eureka-server
+  profiles:
+    active: test

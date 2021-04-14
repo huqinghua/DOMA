@@ -2,7 +2,7 @@ spring:
   profiles:
     active: test
   application:
-    name: mgm
+    name: mgm-money-service
   aop:
     auto: true
     proxy-target-class: true

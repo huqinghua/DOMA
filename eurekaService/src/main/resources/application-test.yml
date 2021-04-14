@@ -1,0 +1,21 @@
+spring:
+  rabbitmq:
+    host : localhost
+    port : 5672
+    username : guest
+    password : guest
+
+server:
+  port : 9000
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+#    serviceUrl:
+#      defaultZone: http://eureka2.kd.com:8811/eureka/
+
+logging:
+  config: classpath:logback-test.xml
