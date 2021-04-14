@@ -35,8 +35,10 @@ public class MoneyAccountRepositoryImpl implements MoneyAccountRepository {
     @Override
     public MoneyMoneyAccount save(MoneyMoneyAccount moneyAccount) {
         AccountDO accountDO = accountBuilder.fromAccount(moneyAccount);
-        accountDORepo.saveAndFlush(accountDO);
-//        accountDORepo.updateByMoney(accountDO.getId(), accountDO.getCurrency(), accountDO.getVersion());
+        accountDORepo.updateByMoney(accountDO.getId(),
+                                    accountDO.getCurrency(),
+                                    accountDO.getVersion(),
+                          accountDO.getVersion()+1);
 
         return moneyAccount;
     }

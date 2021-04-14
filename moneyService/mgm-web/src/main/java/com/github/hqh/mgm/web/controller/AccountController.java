@@ -38,6 +38,7 @@ public class AccountController {
     @Autowired
     AccountSerivce accountSerivce;
 
+    // curl -H "Content-Type:application/json" -X POST -d '{"sourceUserId": 12345, "destUserId":12346, "moneyFen":10, "pwd":"123456"}' http://localhost:8081/account/transferMoney
     @RequestMapping(value = "/transferMoney", method = RequestMethod.POST)
     public GenericResponse<String> transferMoney(@RequestBody TransferMoneyVO transferMoneyVO) {
         GenericResponse<String> res = new GenericResponse<>();

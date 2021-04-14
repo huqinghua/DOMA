@@ -23,6 +23,6 @@ public interface AccountDORepo extends JpaRepository<AccountDO, Long> {
     AccountDO saveAndFlush(AccountDO accountDO);
 
     @Modifying
-    @Query("update AccountDO m set m.currency=?2, m.version=1+?3 where m.version=?2 and m.id=?1")
-    void updateByMoney(Long id, BigDecimal money, Long version);
+    @Query("update AccountDO m set m.currency=:money, m.version=:newVersion where m.version=:version and m.id=:id")
+    void updateByMoney(Long id, BigDecimal money, Long version, Long newVersion);
 }
