@@ -1,7 +1,8 @@
-package com.github.hqh.mgm.web.aop;
+package com.github.hqh.mgm.common.aspect;
 
 import com.github.hqh.mgm.common.exception.MgmErrorCode;
 import com.github.hqh.mgm.common.exception.MgmException;
+import com.github.hqh.mgm.common.log.LogAspectUtil;
 import com.github.hqh.mgm.common.response.GenericResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,15 +18,23 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class ControllerAspect {
-    
-    @Around("(execution(* com.github.hqh.mgm.web.controller..*.*(..)))")
+
+    @Around(
+            "execution(!static com.github.hqh.mgm.common.response.GenericResponse *(..)) && " +
+                    "(@within(org.springframework.stereotype.Controller) || " +
+                    "@within(org.springframework.web.bind.annotation.RestController))"
+    )
     public Object doAround(ProceedingJoinPoint joinPoint) {
         String simpleName = joinPoint.getTarget().getClass().getSimpleName();
         String methName = joinPoint.getSignature().getName();
 
+        LogAspectUtil.logParams(joinPoint);
+
         Object returnVal;
         try {
             returnVal = joinPoint.proceed();
+
+            LogAspectUtil.logResult(returnVal);
         } catch (MgmException e) {
             log.error("MgmException: method={}, MgmException={}", simpleName + "." + methName, e);
             return new GenericResponse<String>(e.getError());

@@ -7,16 +7,16 @@ import org.apache.commons.lang3.StringUtils;
  * @author huqinghua
  */
 
-public enum MgmErrorCode {
+public enum MgmErrorCode implements IMgmErrorCode {
 
     SYSTEM_EXCEPTION("SYSTEM_EXCEPTION", "系统异常"),
     SYSTEM_ERROR("SYSTEM_ERROR", "系统错误"),
     FAIL("FAIL", "处理失败"),
     SUCCESS("SUCCESS", "处理成功"),
     NOT_IMPLETMENT("NOT_IMPLETMENT", "未实现"),
+
     CHECK_PARAMS_ERR("CHECK_PARAMS_ERR", "请求参数有误"),
-    PASSWORD_ERROR("PASSWORD_ERROR", "密码错误"),
-    POINTS_OVERRUN("POINTS_OVERRUN", "积分超限")
+    PASSWORD_ERROR("PASSWORD_ERROR", "密码错误")
     ;
 
 
@@ -29,6 +29,7 @@ public enum MgmErrorCode {
         this.errorMsg = errorMsg;
     }
 
+    @Override
     public String getErrorCode() {
         return errorCode;
     }
@@ -37,6 +38,7 @@ public enum MgmErrorCode {
         this.errorCode = errorCode;
     }
 
+    @Override
     public String getErrorMsg() {
         return errorMsg;
     }

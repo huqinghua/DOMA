@@ -1,5 +1,6 @@
 package com.github.hqh.mgm.common.response;
 
+import com.github.hqh.mgm.common.exception.IMgmErrorCode;
 import com.github.hqh.mgm.common.exception.MgmErrorCode;
 
 /**
@@ -16,7 +17,7 @@ public class GenericResponse<T> extends GenericBaseResponse {
         this(MgmErrorCode.SUCCESS);
     }
 
-    public GenericResponse(MgmErrorCode errorCode) {
+    public GenericResponse(IMgmErrorCode errorCode) {
         super(errorCode);
     }
 

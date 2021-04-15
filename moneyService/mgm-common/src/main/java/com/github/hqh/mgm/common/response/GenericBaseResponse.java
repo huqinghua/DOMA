@@ -1,8 +1,8 @@
 package com.github.hqh.mgm.common.response;
 
-import java.io.Serializable;
+import com.github.hqh.mgm.common.exception.IMgmErrorCode;
 
-import com.github.hqh.mgm.common.exception.MgmErrorCode;
+import java.io.Serializable;
 
 /**
  * @Description:
@@ -32,7 +32,7 @@ public class GenericBaseResponse implements Serializable {
      *
      * @param error
      */
-    public GenericBaseResponse(MgmErrorCode error) {
+    public GenericBaseResponse(IMgmErrorCode error) {
         this.setRet(error.getErrorCode());
         this.setMsg(error.getErrorMsg());
     }
