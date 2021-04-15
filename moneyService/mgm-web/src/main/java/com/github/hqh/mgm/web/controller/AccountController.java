@@ -8,11 +8,9 @@ import com.github.hqh.mgm.domain.moneyaccount.MoneyMoneyAccount;
 import com.github.hqh.mgm.domain.user.IUser;
 import com.github.hqh.mgm.domain.user.UserId;
 import com.github.hqh.mgm.domain.user.UserRemoteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.hqh.mgm.application.AccountSerivce;
 import com.github.hqh.mgm.common.exception.MgmErrorCode;
@@ -22,6 +20,7 @@ import com.github.hqh.mgm.common.response.GenericResponse;
  * @author ：huqinghua
  * @description：
  */
+@Slf4j
 @RequestMapping("/account")
 @RestController
 public class AccountController {
@@ -37,6 +36,12 @@ public class AccountController {
     
     @Autowired
     AccountSerivce accountSerivce;
+
+    @GetMapping("/hello")
+    public String hello() {
+        log.info("hello");
+        return "hello";
+    }
 
     // curl -H "Content-Type:application/json" -X POST -d '{"sourceUserId": 12345, "destUserId":12346, "moneyFen":10, "pwd":"123456"}' http://localhost:8081/account/transferMoney
     @RequestMapping(value = "/transferMoney", method = RequestMethod.POST)

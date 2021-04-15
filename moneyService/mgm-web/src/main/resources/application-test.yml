@@ -22,9 +22,12 @@ spring:
     port : 5672
     username : guest
     password : guest
+#  sleuth:
+#    sampler:
+#      probability: 1
 
 server:
-  port : 8081
+  port : 8089
 logging:
   config : classpath:logback-test.xml
 
@@ -33,3 +36,4 @@ eureka:
   client:
     serviceUrl:
       defaultZone : http://localhost:9000/eureka
+
