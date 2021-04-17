@@ -8,6 +8,8 @@ import com.github.hqh.mgm.domain.moneyaccount.MoneyMoneyAccount;
 import com.github.hqh.mgm.domain.user.IUser;
 import com.github.hqh.mgm.domain.user.UserId;
 import com.github.hqh.mgm.domain.user.UserRemoteRepository;
+import com.github.hqh.mgm.rpc.UserFeign;
+import com.github.hqh.mgm.rpc.UserIdentifyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ import com.github.hqh.mgm.common.response.GenericResponse;
 public class AccountController {
 	
     @Autowired
-    UserRemoteRepository userRepository;
+    UserFeign userFeign;
     
     @Autowired
     MoneyAccountRepository moneyAccountRepository;
@@ -43,7 +45,7 @@ public class AccountController {
         return "hello";
     }
 
-    // curl -H "Content-Type:application/json" -X POST -d '{"sourceUserId": 12345, "destUserId":12346, "moneyFen":10, "pwd":"123456"}' http://localhost:8081/account/transferMoney
+    // curl -H "Content-Type:application/json" -X POST -d '{"sourceUserId": 12345, "destUserId":12346, "moneyFen":10, "pwd":"123456"}' http://localhost:8089/account/transferMoney
     @RequestMapping(value = "/transferMoney", method = RequestMethod.POST)
     public GenericResponse<String> transferMoney(@RequestBody TransferMoneyVO transferMoneyVO) {
         GenericResponse<String> res = new GenericResponse<>();
@@ -51,23 +53,17 @@ public class AccountController {
         if (transferMoneyVO.getMoneyFen() <= 0) {
         	throw new MgmException(MgmErrorCode.CHECK_PARAMS_ERR);
         }
-        
-        // 用户验证
-        UserId userId = new UserId(transferMoneyVO.getSourceUserId());
-        IUser user = userRepository.find(userId);
-        if (null == user) {
-            throw new MgmException(MgmErrorCode.CHECK_PARAMS_ERR);
-        }
-        if (!user.identificate(transferMoneyVO.getPwd())) {
+
+        UserIdentifyVO vo = new UserIdentifyVO();
+        vo.setUserId(transferMoneyVO.getSourceUserId());
+        vo.setPwd(transferMoneyVO.getPwd());
+        GenericResponse<String> response = userFeign.identificate(vo);
+        if (!response.isSuccess() || !response.getContent().equalsIgnoreCase("authrized")) {
             throw new MgmException(MgmErrorCode.PASSWORD_ERROR);
         }
-        
+
+        UserId userId = new UserId(transferMoneyVO.getSourceUserId());
         UserId destUserId = new UserId(transferMoneyVO.getDestUserId());
-        IUser destUser = userRepository.find(destUserId);
-        if (null == destUser) {
-            throw new MgmException(MgmErrorCode.CHECK_PARAMS_ERR);
-        }
-        
         MoneyMoneyAccount sourceMoneyAccount = moneyAccountRepository.find(userId);
         MoneyMoneyAccount destMoneyAccount = moneyAccountRepository.find(destUserId);
         accountService.transferMoney(sourceMoneyAccount, destMoneyAccount, new Money(new BigDecimal(transferMoneyVO.getMoneyFen())));
