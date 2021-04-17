@@ -1,6 +1,7 @@
 package com.github.hqh.mgm.common.response;
 
 import com.github.hqh.mgm.common.exception.IMgmErrorCode;
+import com.github.hqh.mgm.common.exception.MgmErrorCode;
 
 import java.io.Serializable;
 
@@ -51,6 +52,10 @@ public class GenericBaseResponse implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isSuccess() {
+        return this.ret.equalsIgnoreCase(MgmErrorCode.SUCCESS.getErrorCode());
     }
 
     @Override
